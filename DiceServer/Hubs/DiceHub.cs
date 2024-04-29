@@ -175,11 +175,10 @@ namespace DiceServer.Hubs
             await EndTurn(sessionId);
         }
 
-        public async Task UpdateDiceState(Dice dice, List<Dice> dices)
+        public async Task UpdateDiceState(Dice dice, List<Dice> dices, string sessionId)
         {
             var possibleScore = DiceLogic.CalculateFullScore(dices);
-            await Clients.All.SendAsync("DiceStateChanged", dice, possibleScore.totalScore);
-
+            await Clients.Group(sessionId).SendAsync("DiceStateChanged", dice, possibleScore.totalScore);
         }
 
 
